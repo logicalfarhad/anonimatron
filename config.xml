@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <file inFile="Person.csv" reader="com.rolfje.anonimatron.file.CsvFileReader" outFile="out.csv" writer="com.rolfje.anonimatron.file.CsvFileWriter">
+        <column name="Id" type="RANDOMDIGITS" size="50" />
+        <column name="name" type="ROMAN_NAME"  size="100"  />
+        <column name="mbox_sha1sum" type="STRING" size="100"/>
+    </file>
+</configuration>
+

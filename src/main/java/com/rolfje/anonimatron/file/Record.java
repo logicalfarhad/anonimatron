@@ -15,22 +15,20 @@ public class Record {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder("[Record: ");
-        if (names != null) {
-            for (int i = 0; i < names.length; i++) {
-                stringBuilder.append(names[i]);
-                stringBuilder.append(":");
+        for (int i = 0; i < names.length; i++) {
+            stringBuilder.append(names[i]);
+            stringBuilder.append(":");
 
-                if (values[i] != null) {
-                    stringBuilder.append("'" + (values[i].toString()) + "'");
-                } else {
-                    stringBuilder.append("null");
-                }
-
-                if (i < names.length - 1) {
-                    stringBuilder.append(", ");
-                }
-
+            if (values[i] != null) {
+                stringBuilder.append("'").append(values[i].toString()).append("'");
+            } else {
+                stringBuilder.append("null");
             }
+
+            if (i < names.length - 1) {
+                stringBuilder.append(", ");
+            }
+
         }
 
         stringBuilder.append("]");

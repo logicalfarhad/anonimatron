@@ -7,16 +7,15 @@ import com.rolfje.anonimatron.configuration.DataFile;
 import com.rolfje.anonimatron.progress.Progress;
 import com.rolfje.anonimatron.progress.ProgressPrinter;
 import com.rolfje.anonimatron.synonyms.Synonym;
+import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * Reads rows from a file and returns anonymized rows.
@@ -24,8 +23,8 @@ import java.util.Map;
 public class FileAnonymizerService {
     private final Logger LOG = Logger.getLogger(FileAnonymizerService.class);
 
-    private Configuration config;
-    private AnonymizerService anonymizerService;
+    private final Configuration config;
+    private final AnonymizerService anonymizerService;
     private Progress progress;
 
 
@@ -136,7 +135,8 @@ public class FileAnonymizerService {
                 }
 
                 if (outFile.exists()) {
-                    throw new RuntimeException("Output file exists: " + outFile.getAbsolutePath());
+                    outFile.delete();
+                    //throw new RuntimeException("Output file exists: " + outFile.getAbsolutePath());
                 }
 
                 DataFile newDataFile = new DataFile();
@@ -199,15 +199,16 @@ public class FileAnonymizerService {
         return inFiles;
     }
 
-    void anonymize(RecordReader reader, RecordWriter writer, Map<String, Column> columns) throws Exception {
-        while (reader.hasRecords()) {
-            Record read = reader.read();
+    void anonymize(RecordReader reader, RecordWriter writer, Map<String, Column> columns) throws IOException {
 
-            if (read != null) {
-                Record anonymized = anonymize(read, columns);
-                writer.write(anonymized);
-            }
-        }
+        var columnNames = reader.getColumnNames();
+        reader.getRecordList().forEach(item -> {
+            var valueList = new ArrayList<String>();
+            columnNames.forEach(col->valueList.add(item.get(col)));
+            var record = new Record(columnNames.toArray(new String[]{}), valueList.toArray());
+            Record anonymized = anonymize(record, columns);
+            writer.write(anonymized);
+        });
     }
 
     Record anonymize(Record record, Map<String, Column> columns) {
@@ -235,19 +236,21 @@ public class FileAnonymizerService {
     }
 
     private Map<String, Column> toMap(List<Column> columns) {
-        HashMap<String, Column> map = new HashMap<>();
 
         if (columns == null || columns.isEmpty()) {
-            return map;
+            return new HashMap<>();
         }
+        return columns.stream()
+                .collect(Collectors.toMap(Column::getName,
+                        column -> column,
+                        (a, b) -> b,
+                        HashMap::new));
 
-        for (Column column : columns) {
-            map.put(column.getName(), column);
-        }
-        return map;
     }
 
-    private RecordReader createReader(DataFile file) throws Exception {
+    private RecordReader createReader(DataFile file) {
+        System.out.println("file.getReader() = " + file.getReader());
+        System.out.println("file.getInFile() = " + file.getInFile());
         try {
             Class clazz = Class.forName(file.getReader());
             Constructor constructor = clazz.getConstructor(String.class);
@@ -257,7 +260,7 @@ public class FileAnonymizerService {
         }
     }
 
-    private RecordWriter createWriter(DataFile file) throws Exception {
+    private RecordWriter createWriter(DataFile file) {
         try {
             Class clazz = Class.forName(file.getWriter());
             Constructor constructor = clazz.getConstructor(String.class);

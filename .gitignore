@@ -1,5 +1,6 @@
 # Created by .ignore support plugin (hsz.mobi)
 .idea
+.vscode
 anonimatron.log
 anonimatron.iml
 target
@@ -8,3 +9,4 @@ target
 /docs/Gemfile.lock
 /docs/.env
 /docs/_site/
+*.csv

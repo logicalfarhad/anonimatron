@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<synonyms>
+    <string type="ROMAN_NAME" from="QWxsZWdyYS1XYWxidXJnYQ==" to="QmFidWZyaWJ1Ym9sdXM="/>
+    <string type="ROMAN_NAME" from="UnVnZ2llcm8tRGVsYW5l" to="QmFib2JlZnJpZnJpbnVsaXVz"/>
+    <string type="ROMAN_NAME"
+        from="IGRmMWNmOGU2OGQ0OWU1YjY1ZjE1MDdkYmVjZWM2YjYxZTlkYzk4" to="RGlndXNhdWZyaXRvcg=="/>
+    <string type="ROMAN_NAME"
+        from="IDliOWQ0YjhkY2Y3YWRhM2MxODFiNGJlZDFmYTNjNTNkMjljYWY2NQ==" to="QWxiaXR1cw=="/>
+    <string type="ROMAN_NAME" from="Q2FyeW4=" to="QXVndWJ1Ymlib2Vz"/>
+    <string type="ROMAN_NAME"
+        from="IDYxOWIyZjY5YTAxYTdkODZjMGVjYTNmNWU5MTBjNWI1NTlmZjNh" to="RGFudWxhdW51bGVz"/>
+    <string type="ROMAN_NAME"
+        from="ZDZkZWVlMDg4ZTk5YWYwZjdjNjVmYjdjY2E5YmRmYmJlM2Q3MzQz" to="RG9jaW8="/>
+    <string type="ROMAN_NAME"
+        from="ZmIzZWZkOTJlM2M3YThkNzc1YTg5NWJhNDc2ZTExYTNlOGYzZmFj" to="RXVudWxhdWd1YmVsdXM="/>
+    <string type="ROMAN_NAME"
+        from="IGMzYjFjODI1MTE5MDhmNzA2MTUzMzE5Njg4YTdhNTU5OWI4YWQ4YzA=" to="QmViZXR1cw=="/>
+    <string type="ROMAN_NAME" from="RXlhbmEtQXVyZWxpYW51cw==" to="RG9idWJ1ZXM="/>
+    <string type="ROMAN_NAME" from="UHJ6ZW1lay1CZXJ0ZQ==" to="QW5udWxlcw=="/>
+    <string type="ROMAN_NAME" from="RGFuaWplbGEtQWRhbGJyYW5k" to="RGlndXNmcmlidWJ1Y2lv"/>
+    <string type="STRING"
+        from="IGRmMWNmOGU2OGQ0OWU1YjY1ZjE1MDdkYmVjZWM2YjYxZTlkYzk4" to="M2ZlYzJiM2Q0OTQwZTM2Nw=="/>
+    <string type="STRING"
+        from="IDliOWQ0YjhkY2Y3YWRhM2MxODFiNGJlZDFmYTNjNTNkMjljYWY2NQ==" to="M2ZkOGFkZjMwZWMyZDc0OA=="/>
+    <string type="STRING"
+        from="IDYxOWIyZjY5YTAxYTdkODZjMGVjYTNmNWU5MTBjNWI1NTlmZjNh" to="M2ZjYTE4OTU5MWRlODczNA=="/>
+    <string type="STRING"
+        from="ZDZkZWVlMDg4ZTk5YWYwZjdjNjVmYjdjY2E5YmRmYmJlM2Q3MzQz" to="M2ZkZDA4MjQ1MTM0MmY2ZQ=="/>
+    <string type="STRING"
+        from="ZmIzZWZkOTJlM2M3YThkNzc1YTg5NWJhNDc2ZTExYTNlOGYzZmFj" to="M2ZkNzkzZmMzZDdiY2QyNA=="/>
+    <string type="STRING"
+        from="IGMzYjFjODI1MTE5MDhmNzA2MTUzMzE5Njg4YTdhNTU5OWI4YWQ4YzA=" to="M2Y4NTEyMzYyOTBjNDgwMA=="/>
+    <string type="RANDOMDIGITS" from="MQ==" to="MA=="/>
+    <string type="RANDOMDIGITS" from="Mg==" to="OQ=="/>
+    <string type="RANDOMDIGITS" from="Mw==" to="OQ=="/>
+    <string type="RANDOMDIGITS" from="NA==" to="OQ=="/>
+    <string type="RANDOMDIGITS" from="NQ==" to="Nw=="/>
+    <string type="RANDOMDIGITS" from="Ng==" to="NQ=="/>
+</synonyms>

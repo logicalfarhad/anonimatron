@@ -1,67 +1,39 @@
 package com.rolfje.anonimatron.file;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
+
 import java.io.*;
-import java.util.ArrayList;
-import java.util.StringTokenizer;
+import java.util.List;
 
 public class CsvFileReader implements RecordReader, Closeable {
 
-	private BufferedReader reader;
-	private File file;
+    private final CSVParser records;
+    Reader reader;
 
-	public CsvFileReader(String fileName) throws IOException {
-		this(new File(fileName));
-	}
+    public CsvFileReader(String fileName) throws IOException {
+        try {
+            reader = new FileReader(fileName);
+            records = CSVFormat.RFC4180.withFirstRecordAsHeader().parse(reader);
+        } catch (FileNotFoundException e) {
+            throw new RuntimeException("Problem while reading file .", e);
+        }
+    }
 
-	public CsvFileReader(File file) throws IOException {
-		this.file = file;
-		try {
-			reader = new BufferedReader(new FileReader(file));
-		} catch (FileNotFoundException e) {
-			throw new RuntimeException("Problem while reading file " + file.getAbsolutePath() + ".", e);
-		}
-	}
 
-	@Override
-	public boolean hasRecords() {
-		try {
-			return reader.ready();
-		} catch (IOException e) {
-			throw new RuntimeException("Problem while reading file " + file.getAbsolutePath() + ".", e);
-		}
-	}
+    @Override
+    public List<CSVRecord> getRecordList() throws IOException {
+        return records.getRecords();
+    }
 
-	@Override
-	public Record read() {
-		String s = null;
-		try {
-			s = reader.readLine();
-		} catch (IOException e) {
-			throw new RuntimeException("Problem reading file " + file.getAbsolutePath() + ".", e);
-		}
+    @Override
+    public List<String> getColumnNames() {
+        return records.getHeaderNames();
+    }
 
-		// Super simple implementation, not taking quotes into account.
-		// The CSVReader library is no longer supporting Java 1.6, we need
-		// to figure out if we want to switch to a newer Java.
-		StringTokenizer stringTokenizer = new StringTokenizer(s, ",;\t");
-
-		ArrayList<String> names = new ArrayList<>();
-		ArrayList<String> strings = new ArrayList<>();
-		int i = 1;
-		while (stringTokenizer.hasMoreTokens()) {
-			names.add(String.valueOf(i));
-			strings.add(stringTokenizer.nextToken().replaceAll("^\"|\"$", ""));
-			i++;
-		}
-
-		return new Record(
-				names.toArray(new String[]{}),
-				strings.toArray()
-		);
-	}
-
-	@Override
-	public void close() throws IOException {
-		reader.close();
-	}
+    @Override
+    public void close() throws IOException {
+        reader.close();
+    }
 }

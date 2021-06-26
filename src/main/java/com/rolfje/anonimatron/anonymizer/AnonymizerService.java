@@ -11,12 +11,12 @@ import java.util.*;
 public class AnonymizerService {
 	private static final Logger LOG = Logger.getLogger(AnonymizerService.class);
 
-	private Map<String, Anonymizer> customAnonymizers = new HashMap<>();
-	private Map<String, String> defaultTypeMapping = new HashMap<>();
+	private final Map<String, Anonymizer> customAnonymizers = new HashMap<>();
+	private final Map<String, String> defaultTypeMapping = new HashMap<>();
 
 	private SynonymCache synonymCache;
 
-	private Set<String> seenTypes = new HashSet<>();
+	private final Set<String> seenTypes = new HashSet<>();
 
 	public AnonymizerService() throws Exception {
 		this.synonymCache = new SynonymCache();
@@ -157,7 +157,7 @@ public class AnonymizerService {
 
 	public boolean prepare(String type, Object databaseColumnValue) {
 		Anonymizer anonymizer = getAnonymizer(type);
-		if (anonymizer != null && anonymizer instanceof Prefetcher){
+		if (anonymizer instanceof Prefetcher){
 			((Prefetcher)anonymizer).prefetch(databaseColumnValue);
 			return true;
 		}
