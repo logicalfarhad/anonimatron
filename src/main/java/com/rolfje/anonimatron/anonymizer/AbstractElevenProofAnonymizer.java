@@ -1,6 +1,9 @@
 package com.rolfje.anonimatron.anonymizer;
 
 
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
 public abstract class AbstractElevenProofAnonymizer implements Anonymizer {
 
     protected int[] add(int[] digits, int number) {
@@ -19,11 +22,9 @@ public abstract class AbstractElevenProofAnonymizer implements Anonymizer {
     }
 
     protected String digitsAsString(int[] digits) {
-        String result = "";
-        for (int i : digits) {
-            result += String.valueOf(i);
-        }
-        return result;
+        return Arrays.stream(digits)
+                .mapToObj(String::valueOf)
+                .collect(Collectors.joining());
     }
 
     protected int digitsAsInteger(int[] digits) {

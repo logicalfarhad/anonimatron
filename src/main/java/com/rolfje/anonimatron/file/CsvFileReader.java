@@ -3,14 +3,13 @@ package com.rolfje.anonimatron.file;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
-
 import java.io.*;
 import java.util.List;
 
 public class CsvFileReader implements RecordReader, Closeable {
 
     private final CSVParser records;
-    Reader reader;
+    private final Reader reader;
 
     public CsvFileReader(String fileName) throws IOException {
         try {

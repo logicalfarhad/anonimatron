@@ -8,7 +8,6 @@ import com.rolfje.anonimatron.configuration.Configuration;
 import com.rolfje.anonimatron.file.FileAnonymizerService;
 import com.rolfje.anonimatron.jdbc.JdbcAnonymizerService;
 import org.apache.commons.cli.UnrecognizedOptionException;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +22,7 @@ import java.util.Set;
  *
  */
 public class Anonimatron {
-	public static String VERSION = "UNKNOWN";
+	public static String VERSION;
 
 	static {
 		try {
@@ -133,10 +132,10 @@ public class Anonimatron {
 		int col1width = getTextWidth(supportedJdbc.keySet());
 
 		String twoColumnFormat = "%-" + col1width + "s %s";
-		System.out.println(String.format(twoColumnFormat, "Jdbc URL format", "By Driver"));
+		System.out.printf((twoColumnFormat) + "%n", "Jdbc URL format", "By Driver");
 
 		for (Entry<String, String> entry : supportedJdbc.entrySet()) {
-			System.out.println(String.format(twoColumnFormat, entry.getKey(), entry.getValue()));
+			System.out.printf((twoColumnFormat) + "%n", entry.getKey(), entry.getValue());
 		}
 
 		System.out

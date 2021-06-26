@@ -1,45 +1,23 @@
 package com.rolfje.anonimatron.file;
 
-public class Record {
-    private final String[] names;
-    private final Object[] values;
+import java.util.List;
 
-    public Record(String[] names, Object[] values) {
-        if (names.length != values.length) {
+public class Record {
+    private final List<String> names;
+    private final List<Object> values;
+
+    public Record(List<String> names, List<Object> values) {
+        if (names.size() != values.size()) {
             throw new IllegalArgumentException("Argument Arrays need to be the same size.");
         }
         this.names = names;
         this.values = values;
     }
-
-    @Override
-    public String toString() {
-        StringBuilder stringBuilder = new StringBuilder("[Record: ");
-        for (int i = 0; i < names.length; i++) {
-            stringBuilder.append(names[i]);
-            stringBuilder.append(":");
-
-            if (values[i] != null) {
-                stringBuilder.append("'").append(values[i].toString()).append("'");
-            } else {
-                stringBuilder.append("null");
-            }
-
-            if (i < names.length - 1) {
-                stringBuilder.append(", ");
-            }
-
-        }
-
-        stringBuilder.append("]");
-        return stringBuilder.toString();
-    }
-
-    public String[] getNames() {
+    public List<String> getNames() {
         return names;
     }
 
-    public Object[] getValues() {
+    public List<Object> getValues() {
         return values;
     }
 }

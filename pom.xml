@@ -87,17 +87,19 @@
             <artifactId>castor-xml</artifactId>
             <version>1.4.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-csv -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.8</version>
+        </dependency>
+
         <dependency>
             <!-- https://mvnrepository.com/artifact/com.microsoft.sqlserver/mssql-jdbc -->
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
             <version>7.2.2.jre8</version>
             <scope>provided</scope>
-        </dependency>
-        <dependency>
-            <groupId>be.ugent.rml</groupId>
-            <artifactId>rmlmapper</artifactId>
-            <version>4.9.4</version>
         </dependency>
     </dependencies>
 

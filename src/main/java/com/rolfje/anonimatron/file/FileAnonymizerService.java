@@ -7,15 +7,14 @@ import com.rolfje.anonimatron.configuration.DataFile;
 import com.rolfje.anonimatron.progress.Progress;
 import com.rolfje.anonimatron.progress.ProgressPrinter;
 import com.rolfje.anonimatron.synonyms.Synonym;
-import org.apache.commons.csv.CSVRecord;
 import org.apache.log4j.Logger;
-
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Reads rows from a file and returns anonymized rows.
@@ -25,18 +24,11 @@ public class FileAnonymizerService {
 
     private final Configuration config;
     private final AnonymizerService anonymizerService;
-    private Progress progress;
 
 
     public FileAnonymizerService(Configuration config, AnonymizerService anonymizerService) {
         this.config = config;
         this.anonymizerService = anonymizerService;
-    }
-
-
-    public void printConfigurationInfo() {
-        System.out.println("\nAnonymization process started\n");
-        System.out.println("To do         : " + config.getFiles().size() + " files.\n");
     }
 
 
@@ -51,7 +43,7 @@ public class FileAnonymizerService {
             totalBytes += new File(file.getInFile()).length();
         }
 
-        progress = new Progress();
+        Progress progress = new Progress();
         progress.setTotalitemstodo(totalBytes);
 
         ProgressPrinter printer = new ProgressPrinter(progress);
@@ -70,7 +62,6 @@ public class FileAnonymizerService {
                     process = false;
                     progress.incItemsCompleted(infile.length());
                     // TODO possible bug: Which loop do we want to break out of?
-                    continue;
                 }
             }
 
@@ -205,28 +196,28 @@ public class FileAnonymizerService {
         reader.getRecordList().forEach(item -> {
             var valueList = new ArrayList<String>();
             columnNames.forEach(col->valueList.add(item.get(col)));
-            var record = new Record(columnNames.toArray(new String[]{}), valueList.toArray());
+            var record = new Record(columnNames, new ArrayList<>(valueList));
             Record anonymized = anonymize(record, columns);
             writer.write(anonymized);
         });
     }
 
     Record anonymize(Record record, Map<String, Column> columns) {
-        Object[] values = new Object[record.getValues().length];
-        for (int i = 0; i < record.getNames().length; i++) {
-            String name = record.getNames()[i];
-            Object value = record.getValues()[i];
+        var values = new ArrayList<>();
+        for (int i = 0; i < record.getNames().size(); i++) {
+            String name = record.getNames().get(i);
+            Object value = record.getValues().get(i);
 
             if (columns.containsKey(name)) {
                 Column column = columns.get(name);
                 Synonym synonym = anonymizerService.anonymize(column, value);
-                values[i] = synonym.getTo();
+                values.add(synonym.getTo());
             } else {
-                values[i] = value;
+                values.add(value);
             }
         }
 
-        Record outputRecord = new Record(record.getNames(), values);
+        var outputRecord = new Record(record.getNames(), values);
 
         if (LOG.isTraceEnabled()) {
             LOG.trace(record);
@@ -249,8 +240,6 @@ public class FileAnonymizerService {
     }
 
     private RecordReader createReader(DataFile file) {
-        System.out.println("file.getReader() = " + file.getReader());
-        System.out.println("file.getInFile() = " + file.getInFile());
         try {
             Class clazz = Class.forName(file.getReader());
             Constructor constructor = clazz.getConstructor(String.class);
@@ -270,7 +259,7 @@ public class FileAnonymizerService {
         }
     }
 
-    private FileFilter createFileFilter(String fileFilterClass) throws Exception {
+    private FileFilter createFileFilter(String fileFilterClass) {
         try {
             Class clazz = Class.forName(fileFilterClass);
             Constructor constructor = clazz.getConstructor();

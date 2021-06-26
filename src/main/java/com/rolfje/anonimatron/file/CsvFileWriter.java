@@ -4,7 +4,6 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.stream.Collectors;
 
 public class CsvFileWriter implements RecordWriter {
@@ -27,14 +26,14 @@ public class CsvFileWriter implements RecordWriter {
     public void write(Record record) {
         var line = new StringBuilder();
 
-        Object[] values = record.getValues();
-        String[] names = record.getNames();
+        var values = record.getValues();
+        var names = record.getNames();
 
         if (firstLoad) {
             line.append(String.join(",", names)).append("\n");
             firstLoad = false;
         }
-        line.append(Arrays.stream(values)
+        line.append(values.stream()
                 .map(Object::toString)
                 .collect(Collectors.joining(",")));
 
